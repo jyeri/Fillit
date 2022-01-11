@@ -6,7 +6,7 @@
 /*   By: nsamoilo <nsamoilo@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 13:32:55 by nsamoilo          #+#    #+#             */
-/*   Updated: 2022/01/09 18:32:50 by nsamoilo         ###   ########.fr       */
+/*   Updated: 2022/01/10 19:14:38 by nsamoilo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@ int	ft_lines_and_char(char *s, int i, int count, int lines)
 		if (s[i] == '\n')
 		{
 			if (s[i - 1] != '\n')
+			{
+				if ((i % 21 + 1) % 5 != 0)
+					return (-1);
 				lines++;
+			}
 			if (s[i + 1] == '\n' || s[i + 1] == '\0')
 			{
 				if (count != 4 || lines != 4)
@@ -31,12 +35,9 @@ int	ft_lines_and_char(char *s, int i, int count, int lines)
 				count = 0;
 				lines = 0;
 			}
-		}
+		}		
 		i++;
 	}
-	i++;
-	if (i % 21 != 0)
-		return (-1);
 	return (1);
 }
 
