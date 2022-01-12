@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   input_checks.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsamoilo <nsamoilo@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jrummuka <jrummuka@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 13:32:55 by nsamoilo          #+#    #+#             */
-/*   Updated: 2022/01/10 19:14:38 by nsamoilo         ###   ########.fr       */
+/*   Updated: 2022/01/11 10:58:55 by jrummuka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
+
+// int	size_check(char *s)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (s[i] != '\0')
+// 	{
+// 		i++;
+// 	}
+// 	i++;
+// 	if (i % 21 != 0)
+// 		return (-1);
+// 	return (1);
+// }
 
 int	ft_lines_and_char(char *s, int i, int count, int lines)
 {
@@ -35,7 +50,7 @@ int	ft_lines_and_char(char *s, int i, int count, int lines)
 				count = 0;
 				lines = 0;
 			}
-		}		
+		}
 		i++;
 	}
 	return (1);
@@ -68,7 +83,8 @@ int	ft_check_tetros(char *s, int i, int connection, int k)
 void	check_input(char *buffer)
 {
 	if (ft_lines_and_char(buffer, 0, 0, 0) != 1
-		|| ft_check_tetros(buffer, 0, 0, 0) != 1)
+		|| ft_check_tetros(buffer, 0, 0, 0) != 1
+		|| (ft_strlen(buffer) + 1) % 21 != 0)
 	{
 		ft_putendl("error");
 		free(buffer);
