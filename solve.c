@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   solve.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsamoilo <nsamoilo@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jrummuka <jrummuka@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 11:20:15 by nsamoilo          #+#    #+#             */
-/*   Updated: 2022/01/11 16:46:51 by nsamoilo         ###   ########.fr       */
+/*   Updated: 2022/01/12 20:01:01 by jrummuka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,26 +64,30 @@ t_point	get_next_coordinate(t_matrix m, int row, int column)
 void	put_tetrimino(t_tetr_array *tetros,
 	t_matrix *matrix, int size, int index)
 {
-	int		result;
 	t_point	next;
-	t_point	tetropoint;
 
 	if (index == tetros->size)
 		end_game(tetros, matrix);
-	next.column = 0;
 	next.row = 0;
+	next.column = 0;
 	if (tetros->array[index].prev != index)
 		find_start_coordinate(matrix, tetros, index, &next);
-	tetropoint = find_tetropoint(tetros->array[index]);
-	while (next.column != -1)
+	while (next.row < matrix->size)
 	{
-		result = place_tetro(next, matrix, tetros->array[index], tetropoint);
-		if (result == 1)
+		while (next.column < matrix->size)
 		{
-			put_tetrimino(tetros, matrix, size, index + 1);
-			remove_tetro(next, matrix, tetros->array[index]);
+			if (matrix->grid[next.row][next.column] == '.')
+			{
+				if (check_tetro(next, matrix, tetros->array[index]) == 1)
+				{
+					put_tetrimino(tetros, matrix, size, index + 1);
+					remove_tetro(next, matrix, tetros->array[index]);
+				}
+			}
+			next.column++;
 		}
-		next = get_next_coordinate(*matrix, next.row, next.column + 1);
+		next.column = 0;
+		next.row++;
 	}
 }
 
@@ -120,10 +124,8 @@ int	find_best(t_tetr_array *tetriminos, int size)
 
 	new = (t_matrix *)malloc(sizeof(t_matrix));
 	if (!new || create_matrix(new, size, 0, 0) == -1)
-	{
-		free_tetriminos(tetriminos->array, NULL, tetriminos->size - 1, 3);
-		exit(-1);
-	}
+		free_tetriminos_and_exit(tetriminos->array,
+			tetriminos->size - 1, 3, -1);
 	new->size = size;
 	put_tetrimino(tetriminos, new, size, 0);
 	free_matrix(new, new->size);

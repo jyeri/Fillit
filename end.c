@@ -6,7 +6,7 @@
 /*   By: nsamoilo <nsamoilo@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 11:34:37 by nsamoilo          #+#    #+#             */
-/*   Updated: 2022/01/09 18:21:01 by nsamoilo         ###   ########.fr       */
+/*   Updated: 2022/01/12 19:32:31 by nsamoilo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	free_matrix(t_matrix *matrix, int row)
 	free(matrix);
 }
 
-void	free_tetriminos(t_tetr *tetriminos, char *buffer, int i, int row)
+void	free_tetriminos_and_exit(t_tetr *tetriminos, int i, int row, int state)
 {
 	while (i >= 0)
 	{
@@ -64,15 +64,12 @@ void	free_tetriminos(t_tetr *tetriminos, char *buffer, int i, int row)
 		row = 3;
 	}
 	free(tetriminos);
-	if (buffer)
-		free(buffer);
-	exit(-1);
+	exit(state);
 }
 
 void	end_game(t_tetr_array *tetriminos, t_matrix *matrix)
 {
 	print_matrix(*matrix);
 	free_matrix(matrix, matrix->size);
-	free_tetriminos(tetriminos->array, NULL, tetriminos->size - 1, 3);
-	exit(0);
+	free_tetriminos_and_exit(tetriminos->array, tetriminos->size - 1, 3, 0);
 }

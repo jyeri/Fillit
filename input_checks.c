@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_checks.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrummuka <jrummuka@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: nsamoilo <nsamoilo@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 13:32:55 by nsamoilo          #+#    #+#             */
-/*   Updated: 2022/01/12 10:37:49 by jrummuka         ###   ########.fr       */
+/*   Updated: 2022/01/12 19:37:03 by nsamoilo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	check_input(char *buffer)
 		|| (ft_strlen(buffer) + 1) % 21 != 0)
 	{
 		ft_putendl("error");
-		free(buffer);
 		exit(-1);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: nsamoilo <nsamoilo@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 11:32:45 by nsamoilo          #+#    #+#             */
-/*   Updated: 2022/01/11 16:48:55 by nsamoilo         ###   ########.fr       */
+/*   Updated: 2022/01/12 19:33:33 by nsamoilo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ int	copy_tetr(char *buffer, int index, t_tetr *tetriminos, int i)
 	row = 0;
 	tetriminos[i].grid = (char **)malloc(sizeof(char *) * 4);
 	if (!tetriminos[i].grid)
-		free_tetriminos(tetriminos, buffer, i - 1, 3);
+		free_tetriminos_and_exit(tetriminos, i - 1, 3, -1);
 	while (row < 4)
 	{
 		tetriminos[i].grid[row] = (char *)malloc(sizeof(char) * 5);
 		if (!tetriminos[i].grid[row])
-			free_tetriminos(tetriminos, buffer, i, row - 1);
+			free_tetriminos_and_exit(tetriminos, i, row - 1, -1);
 		letter = 0;
 		while (letter < 4)
 		{
@@ -53,6 +53,7 @@ int	copy_tetr(char *buffer, int index, t_tetr *tetriminos, int i)
 		row++;
 	}
 	tetriminos[i].symbol = 'A' + i;
+	tetriminos[i].start = find_tetropoint(tetriminos[i]);
 	return (index);
 }
 
@@ -69,10 +70,7 @@ t_tetr_array	parse_input(char *buffer)
 	amount = (ft_strlen(buffer) + 1) / 21;
 	tetriminos = (t_tetr *)malloc(sizeof(t_tetr) * amount + 1);
 	if (!tetriminos)
-	{
-		free(buffer);
 		exit(-1);
-	}
 	while (i < amount)
 	{
 		index = copy_tetr(buffer, index, tetriminos, i) + 1;
@@ -81,6 +79,5 @@ t_tetr_array	parse_input(char *buffer)
 	}
 	array.array = tetriminos;
 	array.size = amount;
-	free(buffer);
 	return (array);
 }
